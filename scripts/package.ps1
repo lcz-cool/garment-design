@@ -38,10 +38,13 @@ $ErrorActionPreference = 'Stop'
 $skillName = 'garment-design'
 
 # Remove-Item -Recurse 在部分环境里会被安全钩子接管（转回收站失败即抛错），
-# 清理备份属于可失败操作，改用 .NET 目录删除并且失败只警告、不中断安装。
+# 清理属于可失败操作，改用 .NET 目录删除并且失败只警告、不中断安装。
+# 注意：git 的对象文件是只读的，必须先清属性，否则 Delete 报"拒绝访问"。
 function Remove-DirectoryQuiet([string]$Path) {
     if (-not (Test-Path -LiteralPath $Path)) { return $true }
     try {
+        Get-ChildItem -LiteralPath $Path -Recurse -Force -ErrorAction SilentlyContinue |
+            ForEach-Object { $_.Attributes = 'Normal' }
         [System.IO.Directory]::Delete($Path, $true)
         return $true
     }
@@ -79,6 +82,11 @@ try {
     $stageSkill = Join-Path $stage $skillName
     New-Item -ItemType Directory -Path $stageSkill -Force | Out-Null
     Copy-Item -LiteralPath $Source -Destination $stage -Recurse -Force
+    # 本地 git 历史不该进分发包（也不该进安装副本）
+    foreach ($ex in @('.git', '.github')) {
+        $p = Join-Path $stageSkill $ex
+        if (Test-Path -LiteralPath $p) { Remove-DirectoryQuiet $p | Out-Null }
+    }
     # Copy-Item 会把目录名带进来，这里统一成 stage\<skillName>
     if (-not (Test-Path -LiteralPath $stageSkill)) {
         throw "暂存目录结构异常：$stageSkill 不存在"
@@ -119,6 +127,11 @@ if ($Install) {
 
     if (Test-Path -LiteralPath $tmp) { Remove-DirectoryQuiet $tmp | Out-Null }
     Copy-Item -LiteralPath $Source -Destination $tmp -Recurse -Force
+    # 安装副本只放技能内容，不要变成一个可用的 git 工作区
+    foreach ($ex in @('.git', '.github')) {
+        $p = Join-Path $tmp $ex
+        if (Test-Path -LiteralPath $p) { Remove-DirectoryQuiet $p | Out-Null }
+    }
     $hadOld = Test-Path -LiteralPath $dest
     if ($hadOld) { Move-Item -LiteralPath $dest -Destination $bak }
     try {
