@@ -71,6 +71,33 @@ python scripts/check_spec.py <设计目录>
 
 更多实证见 `references/calibration-log.md`。
 
+## 维护
+
+这个技能有三份副本，改的时候容易漏：
+
+| 位置 | 作用 |
+|---|---|
+| 仓库根（本目录） | 源文件，改动都在这里做 |
+| `~/.workbuddy/skills/garment-design/` | 实际生效的安装副本 |
+| `dist/garment-design.zip` | 分发包 |
+
+**正确顺序：改源 → `git commit` → `git push` → `scripts/package.ps1 -Install`**
+
+`-Install` 只同步安装副本，不管 git；`git push` 也不管安装副本。只做一边，就会出现「代码推上去了，但本地技能还是旧的」。
+
+```powershell
+# Windows 上执行策略可能拦截，加进程级 Bypass
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+.\scripts\package.ps1 -Install -KeepBackups 1
+```
+
+备份落在 `~/.workbuddy/skill-backups/garment-design/`，**刻意放在 skills 目录之外** —— 放进去会被技能扫描器当成另一个同名技能，装几次列表里就多几个。`-KeepBackups N` 控制保留份数，默认 3。
+
+## 许可证
+
+MIT · 见 [LICENSE](LICENSE)
+
 ## 版本
 
 v1.5.0 · 2026-10-31
+
