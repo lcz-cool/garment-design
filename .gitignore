@@ -1,0 +1,14 @@
+# 系统
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# 备份与临时
+*.bak
+*.bak-*
+*.new-*
+__pycache__/
+*.pyc
+
+# 本地产物
+*.zip

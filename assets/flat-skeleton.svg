@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297"
+     font-family="'PingFang SC','Microsoft YaHei',Arial,sans-serif">
+  <title>款式图矢量化骨架 · A3 横版</title>
+  <desc>把 AI 生成的位图平面图描成可编辑矢量的工作底稿。图层从上到下：说明 / 尺寸标注 / 结构线 / 轮廓 / 描摹底图 / 画布。
+        用法：把 technical-flat.png 放到 layer-2-trace，锁定透明度，用钢笔描线到 layer-3、layer-4，描完删掉底图，
+        然后按 06 节尺寸加标注，导出 1:1 PDF。这不是可放码文件，放码仍需版师按档差做。</desc>
+
+  <!-- ============ 画布 ============ -->
+  <g id="layer-1-canvas">
+    <rect x="0" y="0" width="420" height="297" fill="#FFFFFF"/>
+    <rect x="8" y="8" width="404" height="281" fill="none" stroke="#DED8CD" stroke-width="0.3"/>
+  </g>
+
+  <!-- ============ 描摹底图（放 PNG 用，描完删掉整层） ============ -->
+  <g id="layer-2-trace" opacity="0.22" style="mix-blend-mode:multiply">
+    <!-- 把 technical-flat.png 复制到本文件同目录，再取消下一行注释 -->
+    <!-- <image href="technical-flat.png" x="26" y="36" width="230" height="153"
+               preserveAspectRatio="xMidYMid meet"/> -->
+    <rect x="26" y="36" width="230" height="153" fill="none"
+          stroke="#A8B4BC" stroke-width="0.3" stroke-dasharray="3 2"/>
+    <text x="141" y="115" font-size="3" fill="#928B81" text-anchor="middle">
+      把 technical-flat.png 放这一层（描完删除）
+    </text>
+  </g>
+
+  <!-- ============ 前后片轮廓 ============ -->
+  <g id="layer-3-outline" fill="none" stroke="#191714" stroke-width="0.35">
+    <!-- 前片 -->
+    <rect x="36" y="46" width="100" height="132" stroke-dasharray="0" stroke-width="0.2" stroke="#C9C2B6"/>
+    <text x="86" y="43" font-size="3" fill="#928B81" text-anchor="middle">FRONT 前片</text>
+    <!-- 后片 -->
+    <rect x="152" y="46" width="100" height="132" stroke-dasharray="0" stroke-width="0.2" stroke="#C9C2B6"/>
+    <text x="202" y="43" font-size="3" fill="#928B81" text-anchor="middle">BACK 后片</text>
+
+    <!-- 中心线：点划线，前后片各一条 -->
+    <line x1="86" y1="46" x2="86" y2="178" stroke="#928B81" stroke-width="0.15"
+          stroke-dasharray="6 1.5 1 1.5"/>
+    <line x1="202" y1="46" x2="202" y2="178" stroke="#928B81" stroke-width="0.15"
+          stroke-dasharray="6 1.5 1 1.5"/>
+    <text x="88" y="182" font-size="2.6" fill="#928B81">C.B. 中心线</text>
+
+    <!-- 对称轴提示 -->
+    <text x="86" y="188" font-size="2.4" fill="#928B81" text-anchor="middle">
+      ← 对称部件左右必须一致
+    </text>
+  </g>
+
+  <!-- ============ 结构线（领、袖、分割、口袋、省道） ============ -->
+  <g id="layer-4-detail" fill="none" stroke="#191714" stroke-width="0.3" stroke-dasharray="1.2 0.8">
+    <text x="36" y="196" font-size="2.6" fill="#928B81">
+      结构线：领片 / 袖窿 / 分割 / 袋盖 / 省道 / 压线 —— 用细虚线，与轮廓区分
+    </text>
+  </g>
+
+  <!-- ============ 尺寸标注（数据来自设计稿 06 节） ============ -->
+  <g id="layer-5-dimension" stroke="#8A6F4E" stroke-width="0.25" fill="#8A6F4E">
+    <!-- 宽度标注示例 -->
+    <line x1="36" y1="36" x2="136" y2="36"/>
+    <line x1="36" y1="34" x2="36" y2="38"/>
+    <line x1="136" y1="34" x2="136" y2="38"/>
+    <text x="86" y="34" font-size="2.8" text-anchor="middle" stroke="none">胸围 /2 = 00.0</text>
+
+    <!-- 高度标注示例 -->
+    <line x1="146" y1="46" x2="146" y2="178"/>
+    <line x1="144" y1="46" x2="148" y2="46"/>
+    <line x1="144" y1="178" x2="148" y2="178"/>
+    <text x="149" y="112" font-size="2.8" stroke="none"
+          transform="rotate(90 149 112)" text-anchor="middle">衣长 00.0</text>
+
+    <!-- 纱向线 -->
+    <g stroke="#8A6F4E" stroke-width="0.25">
+      <line x1="60" y1="120" x2="60" y2="158"/>
+      <path d="M60 120 l-1.4 3 l2.8 0 z" fill="#8A6F4E" stroke="none"/>
+    </g>
+    <text x="62" y="140" font-size="2.4" stroke="none">GRAIN 纱向</text>
+
+    <text x="36" y="204" font-size="2.6" stroke="none">
+      标注：所有数值取自设计稿 06 节，不给估算值；单位 cm，一位小数
+    </text>
+  </g>
+
+  <!-- ============ 标题块与说明 ============ -->
+  <g id="layer-6-notes">
+    <!-- 标题块 -->
+    <rect x="272" y="210" width="130" height="71" fill="none" stroke="#191714" stroke-width="0.3"/>
+    <line x1="272" y1="224" x2="402" y2="224" stroke="#191714" stroke-width="0.3"/>
+    <line x1="272" y1="238" x2="402" y2="238" stroke="#DED8CD" stroke-width="0.2"/>
+    <line x1="272" y1="252" x2="402" y2="252" stroke="#DED8CD" stroke-width="0.2"/>
+    <line x1="272" y1="266" x2="402" y2="266" stroke="#DED8CD" stroke-width="0.2"/>
+    <text x="276" y="220" font-size="3.2" fill="#191714" font-weight="600">款式图 · 矢量工作稿</text>
+    <text x="276" y="234" font-size="2.8" fill="#5A554E">款号 STYLE　　　　____</text>
+    <text x="276" y="248" font-size="2.8" fill="#5A554E">号型 SIZE BASE　　____</text>
+    <text x="276" y="262" font-size="2.8" fill="#5A554E">版本 REV　　　　　____</text>
+    <text x="276" y="276" font-size="2.8" fill="#5A554E">比例 SCALE　1:1　日期 ____</text>
+
+    <!-- 说明 -->
+    <text x="36" y="214" font-size="3" fill="#191714" font-weight="600">怎么用</text>
+    <text x="36" y="220" font-size="2.6" fill="#5A554E">1 置入 technical-flat.png 到 layer-2-trace，锁定透明度 20%，把它当底稿。</text>
+    <text x="36" y="226" font-size="2.6" fill="#5A554E">2 用钢笔描前后片外轮廓到 layer-3，结构线到 layer-4（细虚线）。</text>
+    <text x="36" y="232" font-size="2.6" fill="#5A554E">3 描完删掉 layer-2，别再保留底图 —— 留着就会被当成设计依据。</text>
+    <text x="36" y="238" font-size="2.6" fill="#5A554E">4 按 06 节尺寸加标注到 layer-5，补纱向线、缝份说明、对称标注。</text>
+    <text x="36" y="244" font-size="2.6" fill="#5A554E">5 导出 1:1 PDF（A3）。放码另做，这一张不是放码文件。</text>
+
+    <text x="36" y="256" font-size="2.6" fill="#8A6F4E">本文件只解决「可编辑、可标注」，不解决「可放码」—— 档差与推板仍由版师完成。</text>
+  </g>
+</svg>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{STYLE_CODE}} · {{TITLE}} — 设计稿</title>
+<style>
+  :root{
+    --paper:#FBFAF7;
+    --ink:#191714;
+    --ink-2:#5A554E;
+    --ink-3:#928B81;
+    --rule:#DED8CD;
+    --accent:#8A6F4E;              /* 换成主色 HEX */
+    --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif SC",Georgia,serif;
+    --sans:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Consolas,"Courier New",monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:#EFEDE8;color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:920px;margin:40px auto;background:var(--paper);
+    padding:56px 64px 64px;border-radius:2px;
+    box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(0,0,0,.07);
+  }
+
+  /* ---------- header ---------- */
+  .top{display:flex;justify-content:space-between;align-items:baseline;
+       border-bottom:1px solid var(--ink);padding-bottom:10px}
+  .top .code{font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+  .top .season{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+  h1{font-family:var(--serif);font-size:44px;line-height:1.16;font-weight:400;
+     margin:32px 0 10px;letter-spacing:-.01em}
+  .subtitle{font-family:var(--serif);font-size:15.5px;
+            color:var(--ink-2);margin:0;line-height:1.8;letter-spacing:.01em}
+
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+        margin:30px 0 0;padding:18px 0;
+        border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .meta .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .meta .v{font-size:13px;margin-top:6px;color:var(--ink)}
+
+  /* ---------- visuals ---------- */
+  .visuals{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;margin:36px 0 8px}
+  figure{margin:0}
+  .frame{height:480px;background:#fff;border:1px solid var(--rule);
+         display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .frame img{width:100%;height:100%;display:block}
+  .lookbook .frame img{object-fit:contain;background:#F4F1EA}
+  .flat .frame img{object-fit:contain;padding:4px}
+  figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+             text-transform:uppercase;color:var(--ink-3);margin-top:9px}
+
+  /* ---------- sections ---------- */
+  .section{display:grid;grid-template-columns:92px 1fr;gap:26px;
+           padding:34px 0;border-top:1px solid var(--rule)}
+  .section.first{border-top:1.5px solid var(--ink);margin-top:34px}
+  .rail .num{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+  .rail .en{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+            color:var(--ink-3);margin-top:8px;line-height:1.5}
+  .body h2{font-family:var(--serif);font-size:20px;font-weight:500;
+           margin:0 0 16px;letter-spacing:.01em}
+  p{font-size:14.5px;line-height:1.85;color:var(--ink-2);margin:0 0 12px}
+  p:last-child{margin-bottom:0}
+  .lead{font-size:16px;color:var(--ink);line-height:1.75}
+  strong{color:var(--ink);font-weight:600}
+
+  /* ---------- swatches ---------- */
+  .swatches{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 18px}
+  .swatch{width:130px}
+  .chip{height:74px;border:1px solid rgba(0,0,0,.06)}
+  .swatch .name{font-size:12.5px;margin-top:8px}
+  .swatch .hex{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+               margin-top:3px;letter-spacing:.04em}
+  .swatch .pantone{font-family:var(--mono);font-size:10px;color:var(--ink-3);
+                   margin-top:2px;letter-spacing:.02em}
+  .swatch .use{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+
+  /* ---------- tables ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.12em;
+     text-transform:uppercase;color:var(--ink-3);
+     padding:0 10px 9px 0;border-bottom:1px solid var(--ink)}
+  td{padding:11px 10px 11px 0;border-bottom:1px solid var(--rule);
+     color:var(--ink-2);vertical-align:top;line-height:1.65}
+  td:first-child{color:var(--ink);font-weight:500;width:23%}
+  tbody tr:last-child td{border-bottom:none}
+  .compose td:first-child{width:24%}
+  .compose td:nth-child(2){width:11%;color:var(--ink-3);font-size:12px}
+  .compose td:nth-child(4){width:24%}
+
+  /* ---------- lists ---------- */
+  ul{list-style:none;padding:0;margin:0}
+  li{font-size:14px;line-height:1.85;color:var(--ink-2);
+     padding-left:16px;position:relative;margin-bottom:8px}
+  li::before{content:"";position:absolute;left:0;top:.72em;
+             width:5px;height:1px;background:var(--ink-3)}
+
+  /* ---------- assumptions ---------- */
+  .assumptions{background:#F4F1EA;border-left:2px solid var(--accent);
+               padding:22px 24px;margin-top:-8px}
+  .assumptions h2{font-size:15px!important;margin-bottom:12px!important}
+  .assumptions li{font-size:13px;margin-bottom:6px}
+
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+         display:flex;justify-content:space-between;
+         font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+         color:var(--ink-3);text-transform:uppercase}
+
+  /* ---------- print ---------- */
+  /* 给版师用浏览器「打印 → 另存为 PDF」，A4 边距已内置 */
+  @media print{
+    body{background:#fff}
+    .page{max-width:none;margin:0;padding:0;box-shadow:none;border-radius:0}
+    .section{break-inside:avoid}
+    .visuals{break-inside:avoid}
+    @page{size:A4;margin:14mm}
+  }
+  @media (max-width:760px){
+    .page{padding:32px 22px;margin:0}
+    h1{font-size:32px}
+    .meta{grid-template-columns:repeat(2,1fr)}
+    .visuals{grid-template-columns:1fr}
+    .section{grid-template-columns:1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top">
+    <span class="code">{{STYLE_CODE}}</span>
+    <span class="season">{{SEASON_LABEL}}</span>
+  </div>
+
+  <h1>{{TITLE}}</h1>
+  <p class="subtitle">{{SUBTITLE}}</p>
+
+  <!-- unisex 时 SIZE_BASE 填「女装 160/84A（US 4/EU 36）· 男装 170/88A（US 38/EU 48）」，
+       且 06 节拆成两张表各自标基准；单性别只填一套 -->
+  <div class="meta">
+    <div><div class="k">Category</div><div class="v">{{GENDER}} · {{CATEGORY}}</div></div>
+    <div><div class="k">Season</div><div class="v">{{SEASON}}</div></div>
+    <div><div class="k">Size Base</div><div class="v">{{SIZE_BASE}}</div></div>
+    <div><div class="k">Version</div><div class="v">{{VERSION}} · {{DATE}}</div></div>
+  </div>
+
+  <div class="visuals">
+    <figure class="lookbook">
+      <div class="frame"><img src="lookbook.png" alt="{{TITLE}} 效果图"></div>
+      <figcaption>Lookbook · 上身效果</figcaption>
+    </figure>
+    <figure class="flat">
+      <div class="frame"><img src="technical-flat.png" alt="{{TITLE}} 款式平面图"></div>
+      <figcaption>Technical Flat · 正背款式图</figcaption>
+    </figure>
+  </div>
+  <!-- 图片右下角水印由生成平台强制添加，去不掉；图注里说明一句，别让它看起来像设计元素 -->
+  <p style="font-size:11px;color:var(--ink-3);margin:8px 0 0">
+    图为 AI 生成示意，右下角水印由平台添加，非设计内容。结构与尺寸以 02 / 06 节为准。
+  </p>
+
+  <!-- 01 -->
+  <section class="section first">
+    <div class="rail"><div class="num">01</div><div class="en">Concept</div></div>
+    <div class="body">
+      <h2>设计概念</h2>
+      <!-- 一到两句主张，然后灵感来源，最后风格锚点。三行以内。 -->
+      <p class="lead">{{CONCEPT_LEAD}}</p>
+      <p>{{CONCEPT_DETAIL}}</p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section">
+    <div class="rail"><div class="num">02</div><div class="en">Construction</div></div>
+    <div class="body">
+      <h2>款式结构</h2>
+      <!-- 按物理顺序：廓形 → 衣长 → 领 → 袖 → 门襟 → 腰线 → 下摆 → 内部结构
+           下装请换成：廓形 → 裤长 → 腰头 → 门襟 → 前褶 → 口袋 → 裤口 → 内部结构
+           不适用的行直接删掉，行数不固定 -->
+      <table>
+        <tbody>
+          <tr><td>廓形</td><td>{{SILHOUETTE}}</td></tr>
+          <tr><td>长度</td><td>{{LENGTH}}</td></tr>
+          <tr><td>领型</td><td>{{NECKLINE}}</td></tr>
+          <tr><td>袖型 / 袖口</td><td>{{SLEEVE}}</td></tr>
+          <tr><td>门襟 / 扣位</td><td>{{CLOSURE}}</td></tr>
+          <tr><td>腰线 / 腰头</td><td>{{WAIST}}</td></tr>
+          <tr><td>口袋 / 前褶</td><td>{{POCKET}}</td></tr>
+          <tr><td>下摆 / 裤口</td><td>{{HEM}}</td></tr>
+          <tr><td>内部结构</td><td>{{INTERNAL}}</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ===== 整套 look 专用：用下面这张「款式构成表」替换上面的结构表，不要两张都留。
+           角色只有五种：主体（外层）/ 内搭 / 下装 / 配饰 / 鞋履；主体只能有一个。
+           件数不是五行，按实际增减；配饰与鞋履写「造型项，不生产」 =====
+      <table class="compose">
+        <thead>
+          <tr><th>件名</th><th>角色</th><th>结构要点</th><th>材质</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>{{ITEM_1_NAME}}</td><td>主体 · 外层</td><td>{{ITEM_1_STRUCT}}</td><td>{{ITEM_1_MATERIAL}}</td></tr>
+          <tr><td>{{ITEM_2_NAME}}</td><td>内搭</td><td>{{ITEM_2_STRUCT}}</td><td>{{ITEM_2_MATERIAL}}</td></tr>
+          <tr><td>{{ITEM_3_NAME}}</td><td>下装</td><td>{{ITEM_3_STRUCT}}</td><td>{{ITEM_3_MATERIAL}}</td></tr>
+          <tr><td>{{ITEM_4_NAME}}</td><td>配饰</td><td>{{ITEM_4_STRUCT}}</td><td>{{ITEM_4_MATERIAL}}</td></tr>
+          <tr><td>{{ITEM_5_NAME}}</td><td>鞋履</td><td>{{ITEM_5_STRUCT}}</td><td>{{ITEM_5_MATERIAL}}</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:16px"><strong>层次关系 · </strong>{{LAYERING_NOTE}}</p>
+      ===== 整套专用区块结束 ===== -->
+
+    </div>
+  </section>
+  <section class="section">
+    <div class="rail"><div class="num">03</div><div class="en">Colorway</div></div>
+    <div class="body">
+      <h2>色彩方案</h2>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:{{HEX_MAIN}}"></div>
+          <div class="name">{{NAME_MAIN}}</div>
+          <div class="hex">{{HEX_MAIN}}</div>
+          <div class="pantone">≈ {{PANTONE_MAIN}}</div>
+          <div class="use">主色 · {{USE_MAIN}}</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:{{HEX_SECOND}}"></div>
+          <div class="name">{{NAME_SECOND}}</div>
+          <div class="hex">{{HEX_SECOND}}</div>
+          <div class="pantone">≈ {{PANTONE_SECOND}}</div>
+          <div class="use">辅助色 · {{USE_SECOND}}</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:{{HEX_ACCENT}}"></div>
+          <div class="name">{{NAME_ACCENT}}</div>
+          <div class="hex">{{HEX_ACCENT}}</div>
+          <div class="pantone">≈ {{PANTONE_ACCENT}}</div>
+          <div class="use">点缀色 · {{USE_ACCENT}}</div>
+        </div>
+      </div>
+      <!-- Pantone 号必须是近似值，拿不准就写「待色卡确认」，不要编号码 -->
+      <p style="font-size:11px;color:var(--ink-3);margin:-8px 0 14px">
+        Pantone 为视觉近似，打色以实物色卡为准。
+      </p>
+      <p>{{COLOR_NOTE}}</p>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="section">
+    <div class="rail"><div class="num">04</div><div class="en">Material</div></div>
+    <div class="body">
+      <h2>面料与辅料</h2>
+      <table>
+        <thead>
+          <tr><th>部位</th><th>材质与规格</th><th>选择理由</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>主料</td><td>{{MAIN_FABRIC}}</td><td>{{MAIN_FABRIC_WHY}}</td></tr>
+          <tr><td>配料</td><td>{{TRIM_FABRIC}}</td><td>{{TRIM_FABRIC_WHY}}</td></tr>
+          <tr><td>里料</td><td>{{LINING}}</td><td>{{LINING_WHY}}</td></tr>
+          <tr><td>辅料</td><td>{{HARDWARE}}</td><td>{{HARDWARE_WHY}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="section">
+    <div class="rail"><div class="num">05</div><div class="en">Make</div></div>
+    <div class="body">
+      <h2>工艺要点</h2>
+      <!-- 只写三到五条会决定成败的：影响廓形的、容易做坏的、影响成本的 -->
+      <ul>
+        <li><strong>{{TECH_1_TITLE}}</strong> — {{TECH_1_BODY}}</li>
+        <li><strong>{{TECH_2_TITLE}}</strong> — {{TECH_2_BODY}}</li>
+        <li><strong>{{TECH_3_TITLE}}</strong> — {{TECH_3_BODY}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="section">
+    <div class="rail"><div class="num">06</div><div class="en">Measurement</div></div>
+    <div class="body">
+      <h2>尺寸参考</h2>
+      <!-- 行数不固定：按品类删掉不适用的行，只留下真实需要打版的部位。
+           上装   → 领围、胸围、肩宽、衣长、袖长、下摆围
+           下装   → 腰围、臀围、裤长、立裆、大腿围、裤口围
+           连衣裙 → 胸围、腰围、臀围、衣长、肩宽、袖长
+           unisex → 拆成「女装基准」与「男装基准」两张表，不要合并取平均 -->
+      <table>
+        <thead>
+          <tr><th>部位</th><th>成衣尺寸</th><th>松量 / 说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>领围</td><td>{{M_COLLAR}}</td><td>{{M_COLLAR_NOTE}}</td></tr>
+          <tr><td>胸围</td><td>{{M_BUST}}</td><td>{{M_BUST_NOTE}}</td></tr>
+          <tr><td>腰围</td><td>{{M_WAIST}}</td><td>{{M_WAIST_NOTE}}</td></tr>
+          <tr><td>臀围</td><td>{{M_HIP}}</td><td>{{M_HIP_NOTE}}</td></tr>
+          <tr><td>肩宽</td><td>{{M_SHOULDER}}</td><td>{{M_SHOULDER_NOTE}}</td></tr>
+          <tr><td>衣长 / 裤长</td><td>{{M_LENGTH}}</td><td>{{M_LENGTH_NOTE}}</td></tr>
+          <tr><td>袖长</td><td>{{M_SLEEVE}}</td><td>{{M_SLEEVE_NOTE}}</td></tr>
+          <tr><td>立裆</td><td>{{M_RISE}}</td><td>{{M_RISE_NOTE}}</td></tr>
+          <tr><td>大腿围</td><td>{{M_THIGH}}</td><td>{{M_THIGH_NOTE}}</td></tr>
+          <tr><td>裤口 / 下摆围</td><td>{{M_HEM}}</td><td>{{M_HEM_NOTE}}</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px;font-size:12px;color:var(--ink-3)">
+        基准号型 {{SIZE_BASE}}。以上为设计目标尺寸，非成衣允差标准。放码档差：{{GRADING_NOTE}}。
+      </p>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="section">
+    <div class="rail"><div class="num">07</div><div class="en">Season Fit</div></div>
+    <div class="body">
+      <h2>季节适配</h2>
+      <!-- 三层论证：物理 / 场景 / 体验。禁止写「适合春夏穿着，清爽舒适」。 -->
+      <p><strong>物理层 · </strong>{{SEASON_PHYSICAL}}</p>
+      <p><strong>场景层 · </strong>{{SEASON_SCENE}}</p>
+      <p><strong>体验层 · </strong>{{SEASON_WEAR}}</p>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="section">
+    <div class="rail"><div class="num">08</div><div class="en">Styling</div></div>
+    <div class="body">
+      <h2>搭配建议</h2>
+      <ul>
+        <li><strong>通勤</strong> — {{STYLE_WORK}}</li>
+        <li><strong>周末</strong> — {{STYLE_WEEKEND}}</li>
+        <li><strong>场合</strong> — {{STYLE_OCCASION}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="section">
+    <div class="rail"><div class="num">09</div><div class="en">Production</div></div>
+    <div class="body">
+      <h2>生产提示</h2>
+      <p>{{PRODUCTION_NOTE}}</p>
+      <p style="font-size:12.5px;color:var(--ink-3)">{{PRODUCTION_RISK}}</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="section">
+    <div class="rail"><div class="num">10</div><div class="en">Assumptions</div></div>
+    <div class="body">
+      <div class="assumptions">
+        <h2>设计假设 · 待确认</h2>
+        <!-- 所有 AI 替设计师默认掉的字段，逐条列出 -->
+        <ul>
+          <li>{{ASSUMPTION_1}}</li>
+          <li>{{ASSUMPTION_2}}</li>
+          <li>{{ASSUMPTION_3}}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>{{STYLE_CODE}} · {{VERSION}}</span>
+    <span>{{DATE}}</span>
+  </footer>
+
+</div>
+</body>
+</html>

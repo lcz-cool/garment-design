@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{SERIES_CODE}} · {{SERIES_TITLE}} — 系列页</title>
+<!-- 系列页的读者是买手：他看的是「这几款能不能一起上货架」。
+     单款的结构表放在 specs/<款号>.html，别往这一页塞。
+     共享板（色彩 / 面料 / 基准）只写一次，单款页引用这里。 -->
+<style>
+  :root{
+    --paper:#FBFAF7;
+    --ink:#191714;
+    --ink-2:#5A554E;
+    --ink-3:#928B81;
+    --rule:#DED8CD;
+    --accent:#8A6F4E;              /* 换成系列主色 HEX */
+    --serif:"Songti SC","STSong","Source Han Serif SC","Noto Serif SC",Georgia,serif;
+    --sans:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono","JetBrains Mono",Consolas,"Courier New",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#EFEDE8;color:var(--ink);font-family:var(--sans);
+       -webkit-font-smoothing:antialiased}
+  .page{max-width:1040px;margin:40px auto;background:var(--paper);
+        padding:56px 64px 64px;border-radius:2px;
+        box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(0,0,0,.07)}
+
+  .top{display:flex;justify-content:space-between;align-items:baseline;
+       border-bottom:1px solid var(--ink);padding-bottom:10px}
+  .top .code{font-family:var(--mono);font-size:12px;letter-spacing:.1em}
+  .top .season{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+  h1{font-family:var(--serif);font-size:44px;line-height:1.16;font-weight:400;
+     margin:32px 0 10px;letter-spacing:-.01em}
+  .subtitle{font-family:var(--serif);font-size:15.5px;
+            color:var(--ink-2);margin:0;line-height:1.8;letter-spacing:.01em}
+
+  .meta{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;
+        margin:30px 0 0;padding:18px 0;
+        border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .meta .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .meta .v{font-size:13px;margin-top:6px;color:var(--ink)}
+
+  /* ---------- lookbook 网格 ---------- */
+  .looks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:10px 0 0}
+  .look{margin:0}
+  .look .frame{background:#F4F1EA;border:1px solid var(--rule);
+               aspect-ratio:2/3;display:flex;align-items:center;justify-content:center;
+               overflow:hidden}
+  .look .frame img{width:100%;height:100%;object-fit:contain;display:block}
+  .look .cap{margin-top:9px;font-size:12px;color:var(--ink-2);line-height:1.6}
+  .look .cap b{display:block;font-family:var(--mono);font-size:10.5px;
+               letter-spacing:.08em;color:var(--ink-3);font-weight:400;margin-bottom:3px}
+
+  /* ---------- sections ---------- */
+  .section{display:grid;grid-template-columns:92px 1fr;gap:26px;
+           padding:34px 0;border-top:1px solid var(--rule)}
+  .section.first{border-top:1.5px solid var(--ink);margin-top:34px}
+  .rail .num{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+  .rail .en{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+            color:var(--ink-3);margin-top:8px;line-height:1.5}
+  .body h2{font-family:var(--serif);font-size:20px;font-weight:500;
+           margin:0 0 16px;letter-spacing:.01em}
+  p{font-size:14.5px;line-height:1.85;color:var(--ink-2);margin:0 0 12px}
+  p:last-child{margin-bottom:0}
+  .lead{font-size:16px;color:var(--ink);line-height:1.75}
+  strong{color:var(--ink);font-weight:600}
+  .note{font-size:11px;color:var(--ink-3);margin:-8px 0 14px}
+
+  /* ---------- swatches ---------- */
+  .swatches{display:flex;gap:14px;flex-wrap:wrap;margin:2px 0 6px}
+  .swatch{width:150px}
+  .chip{height:74px;border:1px solid rgba(0,0,0,.06)}
+  .swatch .name{font-size:12.5px;margin-top:8px}
+  .swatch .hex{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+               margin-top:3px;letter-spacing:.04em}
+  .swatch .pantone{font-family:var(--mono);font-size:10px;color:var(--ink-3);
+                   margin-top:2px;letter-spacing:.02em}
+  .swatch .use{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+
+  /* ---------- tables ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;font-size:10.5px;font-weight:600;letter-spacing:.12em;
+     text-transform:uppercase;color:var(--ink-3);
+     padding:0 10px 9px 0;border-bottom:1px solid var(--ink)}
+  td{padding:11px 10px 11px 0;border-bottom:1px solid var(--rule);
+     color:var(--ink-2);vertical-align:top;line-height:1.65}
+  td:first-child{color:var(--ink);font-weight:500}
+  tbody tr:last-child td{border-bottom:none}
+  a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule)}
+  a:hover{border-bottom-color:var(--ink)}
+
+  .styles td:nth-child(1){width:9%;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em}
+  .styles td:nth-child(2){width:13%}
+  .styles td:nth-child(3){width:13%;color:var(--ink-3);font-size:12px}
+  .styles td:nth-child(4){width:9%;font-size:12px}
+  .styles td:nth-child(5){width:14%;font-size:12px}
+  .styles td:nth-child(7){width:8%;font-size:12px;text-align:right}
+
+  /* ---------- logic ---------- */
+  .logic{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:4px}
+  .logic h3{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+            color:var(--ink-3);margin:0 0 8px;font-weight:600}
+  .logic p{font-size:13.5px;margin:0}
+
+  /* ---------- assumptions ---------- */
+  .assumptions{background:#F4F1EA;border-left:2px solid var(--accent);padding:22px 24px}
+  .assumptions h2{font-size:15px!important;margin-bottom:12px!important}
+  .assumptions li{font-size:13px;margin-bottom:6px}
+
+  ul{list-style:none;padding:0;margin:0}
+  li{font-size:14px;line-height:1.85;color:var(--ink-2);
+     padding-left:16px;position:relative;margin-bottom:8px}
+  li::before{content:"";position:absolute;left:0;top:.72em;
+             width:5px;height:1px;background:var(--ink-3)}
+
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);
+         display:flex;justify-content:space-between;
+         font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+         color:var(--ink-3);text-transform:uppercase}
+
+  @media print{
+    body{background:#fff}
+    .page{max-width:none;margin:0;padding:0;box-shadow:none;border-radius:0}
+    .section,.looks,.logic{break-inside:avoid}
+    @page{size:A4;margin:12mm}
+  }
+  @media (max-width:820px){
+    .page{padding:32px 22px;margin:0}
+    h1{font-size:32px}
+    .meta{grid-template-columns:repeat(2,1fr)}
+    .looks{grid-template-columns:repeat(2,1fr)}
+    .logic{grid-template-columns:1fr}
+    .section{grid-template-columns:1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top">
+    <span class="code">{{SERIES_CODE}}</span>
+    <span class="season">{{SEASON_LABEL}}</span>
+  </div>
+
+  <h1>{{SERIES_TITLE}}</h1>
+  <p class="subtitle">{{SUBTITLE}}</p>
+
+  <!-- 号型基准全系列共用；若男女装混编，写成「女装 160/84A · 男装 170/88A」并在 07 节说明哪几款走哪条 -->
+  <div class="meta">
+    <div><div class="k">Series</div><div class="v">{{GENDER}} · {{CATEGORY_LINE}}</div></div>
+    <div><div class="k">Season</div><div class="v">{{SEASON}}</div></div>
+    <div><div class="k">Styles</div><div class="v">{{STYLE_COUNT}} 款</div></div>
+    <div><div class="k">Size Base</div><div class="v">{{SIZE_BASE}}</div></div>
+    <div><div class="k">Version</div><div class="v">{{VERSION}} · {{DATE}}</div></div>
+  </div>
+
+  <!-- 01 -->
+  <section class="section first">
+    <div class="rail"><div class="num">01</div><div class="en">Concept</div></div>
+    <div class="body">
+      <h2>系列概念</h2>
+      <!-- 一个概念，不是每款一个。三行以内。 -->
+      <p class="lead">{{CONCEPT_LEAD}}</p>
+      <p>{{CONCEPT_DETAIL}}</p>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section">
+    <div class="rail"><div class="num">02</div><div class="en">Shared Colorway</div></div>
+    <div class="body">
+      <h2>共享色彩方案 <span style="font-size:11px;letter-spacing:.12em;color:var(--ink-3)">全系列共用</span></h2>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="chip" style="background:{{HEX_MAIN}}"></div>
+          <div class="name">{{NAME_MAIN}}</div>
+          <div class="hex">{{HEX_MAIN}}</div>
+          <div class="pantone">≈ {{PANTONE_MAIN}}</div>
+          <div class="use">主色 · {{USE_MAIN}}</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:{{HEX_SECOND}}"></div>
+          <div class="name">{{NAME_SECOND}}</div>
+          <div class="hex">{{HEX_SECOND}}</div>
+          <div class="pantone">≈ {{PANTONE_SECOND}}</div>
+          <div class="use">辅助色 · {{USE_SECOND}}</div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background:{{HEX_ACCENT}}"></div>
+          <div class="name">{{NAME_ACCENT}}</div>
+          <div class="hex">{{HEX_ACCENT}}</div>
+          <div class="pantone">≈ {{PANTONE_ACCENT}}</div>
+          <div class="use">点缀色 · {{USE_ACCENT}}</div>
+        </div>
+      </div>
+      <p class="note">Pantone 为视觉近似，打色以实物色卡为准。</p>
+      <p>{{COLOR_NOTE}}</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="section">
+    <div class="rail"><div class="num">03</div><div class="en">Shared Material</div></div>
+    <div class="body">
+      <h2>共享面料板 <span style="font-size:11px;letter-spacing:.12em;color:var(--ink-3)">全系列共用</span></h2>
+      <!-- 行数按实际增减。系列的价值有一半在「同一块料用在哪几款」—— 表后必须点明 -->
+      <table>
+        <thead>
+          <tr><th>部位</th><th>材质与规格</th><th>用在哪几款</th><th>选择理由</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>主料 A</td><td>{{MAIN_A}}</td><td>{{MAIN_A_USED}}</td><td>{{MAIN_A_WHY}}</td></tr>
+          <tr><td>主料 B</td><td>{{MAIN_B}}</td><td>{{MAIN_B_USED}}</td><td>{{MAIN_B_WHY}}</td></tr>
+          <tr><td>里料</td><td>{{LINING}}</td><td>{{LINING_USED}}</td><td>{{LINING_WHY}}</td></tr>
+          <tr><td>辅料</td><td>{{HARDWARE}}</td><td>{{HARDWARE_USED}}</td><td>{{HARDWARE_WHY}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="section">
+    <div class="rail"><div class="num">04</div><div class="en">Style Matrix</div></div>
+    <div class="body">
+      <h2>款表</h2>
+      <!-- 买手先看这一张表。款号连号；最后一列链到 specs/<款号>.html。
+           款数不固定，按实际增删行，不要留空行。 -->
+      <table class="styles">
+        <thead>
+          <tr><th>款号</th><th>品类</th><th>廓形</th><th>主色</th><th>主料</th><th>结构一句话</th><th>单款页</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>{{S1_CODE}}</td><td>{{S1_CAT}}</td><td>{{S1_SIL}}</td><td>{{S1_COLOR}}</td><td>{{S1_FABRIC}}</td><td>{{S1_ONE_LINE}}</td><td><a href="specs/{{S1_CODE}}.html">查看</a></td></tr>
+          <tr><td>{{S2_CODE}}</td><td>{{S2_CAT}}</td><td>{{S2_SIL}}</td><td>{{S2_COLOR}}</td><td>{{S2_FABRIC}}</td><td>{{S2_ONE_LINE}}</td><td><a href="specs/{{S2_CODE}}.html">查看</a></td></tr>
+          <tr><td>{{S3_CODE}}</td><td>{{S3_CAT}}</td><td>{{S3_SIL}}</td><td>{{S3_COLOR}}</td><td>{{S3_FABRIC}}</td><td>{{S3_ONE_LINE}}</td><td><a href="specs/{{S3_CODE}}.html">查看</a></td></tr>
+          <!-- 第 4 款起照抄一行 -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="section">
+    <div class="rail"><div class="num">05</div><div class="en">Series Lookbook</div></div>
+    <div class="body">
+      <h2>系列 lookbook</h2>
+      <!-- 图片全部 object-fit:contain，不裁切；背景必须全系列一致，否则网格会散。
+           图注只写款号 + 一句话，结构细节留给单款页。 -->
+      <div class="looks">
+        <figure class="look">
+          <div class="frame"><img src="looks/{{S1_CODE}}.png" alt="{{S1_CODE}} 效果图"></div>
+          <div class="cap"><b>{{S1_CODE}}</b>{{S1_CAP}}</div>
+        </figure>
+        <figure class="look">
+          <div class="frame"><img src="looks/{{S2_CODE}}.png" alt="{{S2_CODE}} 效果图"></div>
+          <div class="cap"><b>{{S2_CODE}}</b>{{S2_CAP}}</div>
+        </figure>
+        <figure class="look">
+          <div class="frame"><img src="looks/{{S3_CODE}}.png" alt="{{S3_CODE}} 效果图"></div>
+          <div class="cap"><b>{{S3_CODE}}</b>{{S3_CAP}}</div>
+        </figure>
+      </div>
+      <p class="note" style="margin-top:12px">
+        AI 生成示意，右下角水印由平台添加，非设计内容。结构与尺寸以单款页 02 / 06 节为准。
+      </p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="section">
+    <div class="rail"><div class="num">06</div><div class="en">Series Logic</div></div>
+    <div class="body">
+      <h2>系列逻辑</h2>
+      <!-- 三件事，各写一个能被验证的关系。写不出关系就说明这批款其实不成系列。 -->
+      <div class="logic">
+        <div>
+          <h3>比例</h3>
+          <p>{{LOGIC_RATIO}}</p>
+        </div>
+        <div>
+          <h3>配色分工</h3>
+          <p>{{LOGIC_COLOR}}</p>
+        </div>
+        <div>
+          <h3>面料共用</h3>
+          <p>{{LOGIC_FABRIC}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="section">
+    <div class="rail"><div class="num">07</div><div class="en">Size &amp; Grading</div></div>
+    <div class="body">
+      <h2>尺寸基准与放码</h2>
+      <p><strong>基准 · </strong>{{SIZE_BASE_NOTE}}</p>
+      <p><strong>放码 · </strong>{{GRADING_NOTE}}</p>
+      <p><strong>逐款差异 · </strong>{{SIZE_DIFF}}</p>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="section">
+    <div class="rail"><div class="num">08</div><div class="en">Production</div></div>
+    <div class="body">
+      <h2>生产提示</h2>
+      <p>{{PRODUCTION_NOTE}}</p>
+      <p style="font-size:12.5px;color:var(--ink-3)">{{PRODUCTION_RISK}}</p>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="section">
+    <div class="rail"><div class="num">09</div><div class="en">Assumptions</div></div>
+    <div class="body">
+      <div class="assumptions">
+        <h2>设计假设 · 待确认</h2>
+        <ul>
+          <li><strong>{{ASSUMPTION_GENDER}}</strong></li>
+          <li>{{ASSUMPTION_2}}</li>
+          <li>{{ASSUMPTION_3}}</li>
+          <li>{{ASSUMPTION_4}}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>{{SERIES_CODE}} · {{VERSION}}</span>
+    <span>{{DATE}}</span>
+  </footer>
+
+</div>
+</body>
+</html>
