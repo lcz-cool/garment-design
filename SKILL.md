@@ -1,8 +1,18 @@
 ---
 name: garment-design
-description: Create complete garment design deliverables for fashion designers, for both womenswear and menswear. Use when the user describes clothing features plus an applicable season and expects an actual design result — e.g. "设计一条春夏的长款收腰连衣裙，方领泡泡袖，法式复古", "做一件秋冬 oversize 羊毛大衣，双排扣，燕麦色", "男装，一件早秋的牛津纺纽扣领衬衫，clean fit". Produces three linked deliverables: an on-model lookbook render, a technical flat front/back drawing, and a styled HTML design specification covering concept, silhouette, colorway, fabric, construction, measurements and season fit. Triggers include 服装设计, 款式设计, 设计一件衣服, 出效果图, 款式图, 平面款式图, 设计稿, 时装设计, 男装, 女装, 男女同款, lookbook, garment design, fashion design, menswear, womenswear, technical flat, tech pack.
-version: 1.5.0
-updated: 2026-10-30
+description: >-
+  Create complete garment design deliverables for fashion designers, for both
+  womenswear and menswear. Use when the user describes clothing features plus an
+  applicable season and expects an actual design result — e.g. "设计一条春夏的长款收腰连衣裙，方领泡泡袖，法式复古",
+  "做一件秋冬 oversize 羊毛大衣，双排扣，燕麦色", "男装，一件早秋的牛津纺纽扣领衬衫，clean fit".
+  Produces three linked deliverables — an on-model lookbook render, a technical
+  flat front/back drawing, and a styled HTML design specification covering
+  concept, silhouette, colorway, fabric, construction, measurements and season
+  fit. Triggers include 服装设计, 款式设计, 设计一件衣服, 出效果图, 款式图, 平面款式图,
+  设计稿, 时装设计, 男装, 女装, 男女同款, 整套 look, 系列, lookbook, garment design,
+  fashion design, menswear, womenswear, technical flat, tech pack.
+version: "1.5.0"
+updated: "2026-10-31"
 agent_created: true
 ---
 

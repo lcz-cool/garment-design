@@ -64,6 +64,18 @@ $Source = (Resolve-Path -LiteralPath $Source).Path
 if (-not (Test-Path -LiteralPath (Join-Path $Source 'SKILL.md'))) {
     throw "源目录里没有 SKILL.md，确认 -Source 指向 skill 根目录：$Source"
 }
+
+# 上架市场时平台会解析 frontmatter，解析失败直接拒收 —— 打包前先自己验一遍
+$lint = Join-Path $Source 'scripts\lint_skill.py'
+if (Test-Path -LiteralPath $lint) {
+    if (Get-Command python -ErrorAction SilentlyContinue) {
+        & python $lint (Join-Path $Source 'SKILL.md')
+        if ($LASTEXITCODE -ne 0) { throw "SKILL.md frontmatter 校验失败，先修再打包（见上方输出）" }
+    }
+    else {
+        Write-Warning "没找到 python，跳过 frontmatter 校验"
+    }
+}
 if (-not $ZipPath) {
     # 默认落到 <dist>\garment-design.zip —— 源的上一层是包装层，再上一层才是 dist
     $wrapperDir = Split-Path -Parent $Source
