@@ -11,9 +11,26 @@ description: >-
   fit. Triggers include 服装设计, 款式设计, 设计一件衣服, 出效果图, 款式图, 平面款式图,
   设计稿, 时装设计, 男装, 女装, 男女同款, 整套 look, 系列, lookbook, garment design,
   fashion design, menswear, womenswear, technical flat, tech pack.
-version: "1.5.0"
+version: "1.5.1"
 updated: "2026-10-31"
 agent_created: true
+display_name: 服装设计
+display_name_en: Garment Design
+description_zh: >-
+  从一句服装描述出发，交付可用的设计成果 — 上身效果图、正背款式平面图、结构化的 HTML 设计稿。支持男女装，单件、整套 look 与多款系列，自带设计稿自检。
+description_en: >-
+  Turn a one-line garment brief into deliverable design work — an on-model
+  lookbook render, a technical flat front/back drawing, and a structured HTML
+  design specification. Womenswear and menswear, single pieces, full looks and
+  multi-piece series, with a built-in spec checker.
+examples_zh:
+  - 设计一条春夏的长款收腰连衣裙，方领泡泡袖，法式复古
+  - 男装，早秋，一件无结构软肩的精纺外套，四个贴袋
+  - 帮我出一季三件的胶囊系列，共享一套色板和面料
+examples_en:
+  - A spring/summer long fitted dress with a square neck and puff sleeves, French vintage
+  - Menswear, early autumn, an unstructured soft-shoulder fine-wool jacket with four patch pockets
+  - A three-piece capsule series sharing one colour palette and fabric board
 ---
 
 # Garment Design

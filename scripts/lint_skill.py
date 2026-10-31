@@ -21,9 +21,20 @@ from pathlib import Path
 
 REQUIRED = ("name", "description")
 
+# 上架市场时平台还会强制要求这几个展示字段，缺一个就整包拒收：
+#   缺少 Skill 中文展示名（display_name）…
+MARKET_REQUIRED = (
+    "display_name",
+    "display_name_en",
+    "description_zh",
+    "description_en",
+)
+
 
 def main(argv: list[str]) -> int:
-    path = Path(argv[1]) if len(argv) > 1 else Path("SKILL.md")
+    market = "--market" in argv
+    args = [a for a in argv[1:] if not a.startswith("--")]
+    path = Path(args[0]) if args else Path("SKILL.md")
     if not path.exists():
         print(f"FAIL: 找不到文件 {path}")
         return 1
@@ -55,9 +66,17 @@ def main(argv: list[str]) -> int:
         print(f"FAIL: 缺必填字段 {', '.join(missing)}")
         return 1
 
+    if market:
+        miss_mkt = [k for k in MARKET_REQUIRED if not str(data.get(k, "")).strip()]
+        if miss_mkt:
+            print(f"FAIL: 缺市场展示字段 {', '.join(miss_mkt)}（平台会直接拒收）")
+            return 1
+
     print("OK: YAML 解析通过 — 字段 " + ", ".join(data.keys()))
     desc = str(data["description"])
     print(f"    description 长度 {len(desc)} 字符")
+    if market:
+        print(f"    市场字段齐全：{', '.join(MARKET_REQUIRED)}")
     return 0
 
 

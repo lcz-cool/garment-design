@@ -69,7 +69,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $Source 'SKILL.md'))) {
 $lint = Join-Path $Source 'scripts\lint_skill.py'
 if (Test-Path -LiteralPath $lint) {
     if (Get-Command python -ErrorAction SilentlyContinue) {
-        & python $lint (Join-Path $Source 'SKILL.md')
+        & python $lint (Join-Path $Source 'SKILL.md') --market
         if ($LASTEXITCODE -ne 0) { throw "SKILL.md frontmatter 校验失败，先修再打包（见上方输出）" }
     }
     else {
