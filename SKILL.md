@@ -11,13 +11,13 @@ description: >-
   fit. Triggers include 服装设计, 款式设计, 设计一件衣服, 出效果图, 款式图, 平面款式图,
   设计稿, 时装设计, 男装, 女装, 男女同款, 整套 look, 系列, lookbook, garment design,
   fashion design, menswear, womenswear, technical flat, tech pack.
-version: "1.5.1"
+version: "1.5.2"
 updated: "2026-10-31"
 agent_created: true
-display_name: 服装设计
-display_name_en: Garment Design
+display_name: 服装设计稿
+display_name_en: Garment Design Spec
 description_zh: >-
-  从一句服装描述出发，交付可用的设计成果 — 上身效果图、正背款式平面图、结构化的 HTML 设计稿。支持男女装，单件、整套 look 与多款系列，自带设计稿自检。
+  不只出图 — 一句话生成上身效果图、正背款式平面图，以及含尺寸表、克重与色号的 HTML 设计稿。男女装通用，支持单件、整套与系列。
 description_en: >-
   Turn a one-line garment brief into deliverable design work — an on-model
   lookbook render, a technical flat front/back drawing, and a structured HTML
