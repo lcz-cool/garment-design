@@ -149,6 +149,15 @@
     <div><div class="k">Version</div><div class="v">{{VERSION}} · {{DATE}}</div></div>
   </div>
 
+  <!-- ===== 生产版：补系列与设计师，改稿才追得到人。展示版删掉整块 =====
+  <div class="meta" style="border-top:none;padding-top:0">
+    <div><div class="k">品名</div><div class="v">{{TITLE}}</div></div>
+    <div><div class="k">系列</div><div class="v">{{COLLECTION}}</div></div>
+    <div><div class="k">设计师</div><div class="v">{{DESIGNER}}</div></div>
+    <div><div class="k">日期</div><div class="v">{{DATE}}</div></div>
+  </div>
+  ===== 生产版区块结束 ===== -->
+
   <div class="visuals">
     <figure class="lookbook">
       <div class="frame"><img src="lookbook.png" alt="{{TITLE}} 效果图"></div>
@@ -249,6 +258,21 @@
         Pantone 为视觉近似，打色以实物色卡为准。
       </p>
       <p>{{COLOR_NOTE}}</p>
+
+      <!-- ===== 生产版：第二套 Colorway。展示版删掉整块 =====
+      <div class="subhead">替代配色 Colorway B</div>
+      <table>
+        <thead>
+          <tr><th>用在哪</th><th>色名</th><th>HEX</th><th>Pantone 近似</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>主色</td><td>{{CWB_MAIN_NAME}}</td><td>{{CWB_MAIN_HEX}}</td><td>{{CWB_MAIN_PAN}}</td></tr>
+          <tr><td>辅助色</td><td>{{CWB_SUB_NAME}}</td><td>{{CWB_SUB_HEX}}</td><td>{{CWB_SUB_PAN}}</td></tr>
+          <tr><td>点缀色</td><td>{{CWB_ACC_NAME}}</td><td>{{CWB_ACC_HEX}}</td><td>{{CWB_ACC_PAN}}</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.5px;color:var(--ink-3)">替代套不动结构与面料，只换色 —— <span>{{CWB_NOTE}}</span></p>
+      ===== 生产版区块结束 ===== -->
     </div>
   </section>
 
@@ -268,6 +292,26 @@
           <tr><td>辅料</td><td>{{HARDWARE}}</td><td>{{HARDWARE_WHY}}</td></tr>
         </tbody>
       </table>
+
+      <!-- ===== 生产版：独立 BOM 表，最少九行，每行带规格与色号。展示版删掉整块 =====
+      <div class="subhead">BOM 物料表</div>
+      <table>
+        <thead>
+          <tr><th>类别</th><th>规格</th><th>色号 / 备注</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>主面料</td><td>{{BOM_MAIN_SPEC}}</td><td>{{BOM_MAIN_COLOR}}</td></tr>
+          <tr><td>里布</td><td>{{BOM_LINING_SPEC}}</td><td>{{BOM_LINING_COLOR}}</td></tr>
+          <tr><td>衬布</td><td>{{BOM_FUSE_SPEC}}</td><td>{{BOM_FUSE_COLOR}}</td></tr>
+          <tr><td>拉链</td><td>{{BOM_ZIP_SPEC}}</td><td>{{BOM_ZIP_COLOR}}</td></tr>
+          <tr><td>纽扣</td><td>{{BOM_BUTTON_SPEC}}</td><td>{{BOM_BUTTON_COLOR}}</td></tr>
+          <tr><td>缝纫线</td><td>{{BOM_THREAD_SPEC}}</td><td>{{BOM_THREAD_COLOR}}</td></tr>
+          <tr><td>织带 / 松紧</td><td>{{BOM_TAPE_SPEC}}</td><td>{{BOM_TAPE_COLOR}}</td></tr>
+          <tr><td>主标 / 洗水标 / 吊牌</td><td>{{BOM_LABEL_SPEC}}</td><td>{{BOM_LABEL_COLOR}}</td></tr>
+          <tr><td>印花 / 绣花</td><td>{{BOM_PRINT_SPEC}}</td><td>{{BOM_PRINT_COLOR}}</td></tr>
+        </tbody>
+      </table>
+      ===== 生产版区块结束 ===== -->
     </div>
   </section>
 
@@ -282,6 +326,36 @@
         <li><strong>{{TECH_2_TITLE}}</strong> — {{TECH_2_BODY}}</li>
         <li><strong>{{TECH_3_TITLE}}</strong> — {{TECH_3_BODY}}</li>
       </ul>
+
+      <!-- ===== 生产版：缝制规格表 + 图案印花。展示版删掉整块 =====
+      <div class="subhead">缝制规格</div>
+      <table>
+        <thead>
+          <tr><th>项</th><th>要求</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>缝型</td><td>{{SEW_TYPE}}</td></tr>
+          <tr><td>针距 SPI</td><td>{{SEW_SPI}}</td></tr>
+          <tr><td>缝份</td><td>{{SEW_ALLOW}}</td></tr>
+          <tr><td>熨烫</td><td>{{SEW_PRESS}}</td></tr>
+          <tr><td>特殊工艺</td><td>{{SEW_SPECIAL}}</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">图案与印花</div>
+      <table>
+        <thead>
+          <tr><th>项</th><th>要求</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>工艺方式</td><td>{{PRINT_METHOD}}</td></tr>
+          <tr><td>放置位置</td><td>{{PRINT_PLACE}}</td></tr>
+          <tr><td>定位尺寸</td><td>{{PRINT_SIZE}}</td></tr>
+          <tr><td>颜色数</td><td>{{PRINT_COLORS}}</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.5px;color:var(--ink-3)">印花与绣花的矢量文件需另出，本节点不交付：<span>{{PRINT_VECTOR_NOTE}}</span></p>
+      ===== 生产版区块结束 ===== -->
     </div>
   </section>
 
@@ -315,6 +389,25 @@
       <p style="margin-top:14px;font-size:12px;color:var(--ink-3)">
         基准号型 {{SIZE_BASE}}。以上为设计目标尺寸，非成衣允差标准。放码档差：{{GRADING_NOTE}}。
       </p>
+
+      <!-- ===== 生产版：允差 + 测量方法 + 局部详图声明。展示版删掉整块 =====
+      <div class="subhead">允差与测量方法</div>
+      <table>
+        <thead>
+          <tr><th>部位</th><th>允差</th><th>测量方法</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>胸围</td><td>{{TOL_BUST}}</td><td>{{MEAS_BUST}}</td></tr>
+          <tr><td>衣长 / 裤长</td><td>{{TOL_LENGTH}}</td><td>{{MEAS_LENGTH}}</td></tr>
+          <tr><td>肩宽</td><td>{{TOL_SHOULDER}}</td><td>{{MEAS_SHOULDER}}</td></tr>
+          <tr><td>袖长</td><td>{{TOL_SLEEVE}}</td><td>{{MEAS_SLEEVE}}</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.5px;color:var(--ink-3)">
+        <strong>图形缺口 · </strong>局部放大详图（口袋 / 门襟 / 领 / 拉链大样）待人工补充，
+        按 <code>assets/flat-skeleton.svg</code> 手工描图，不做自动描摹。
+      </p>
+      ===== 生产版区块结束 ===== -->
     </div>
   </section>
 

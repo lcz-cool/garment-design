@@ -520,19 +520,81 @@ def check_variants(root: Path) -> None:
             warn(f"变体 {name} 版本号与主交付相同（v{vm.group(1)}），建议递增")
 
 
+def check_production(html: str) -> None:
+    """生产版字段齐不齐（--production）。
+
+    判据是「字段齐不齐」，不是「数值能否直接下单」—— 后者只有版师能定。
+    规则依据：references/techpack.md
+    """
+    body = strip_comments(html)
+    plain = re.sub(r"<[^>]+>", "", body)
+
+    # 1 BOM 表：类别不少于九行
+    bom_kinds = ["主面料", "里布", "衬布", "拉链", "纽扣", "缝纫线", "织带", "标", "印花"]
+    if "BOM" not in plain:
+        fail("生产版缺 BOM 物料表（04 节）—— 拉链纽扣线标不能挤在一行「辅料」里")
+    else:
+        miss = [k for k in bom_kinds if k not in plain]
+        if miss:
+            fail(f"BOM 表缺类别：{', '.join(miss)}（最少九类，见 techpack.md）")
+        else:
+            ok("BOM 表类别齐全")
+
+    # 2 缝制规格：缝型 / SPI / 缝份 / 熨烫
+    sew_keys = {"缝型": r"缝型|包缝|平缝|来去缝|双针", "SPI": r"SPI|针/英寸|针距",
+                "缝份": r"缝份", "熨烫": r"熨烫|整烫"}
+    miss_sew = [k for k, pat in sew_keys.items() if not re.search(pat, plain, re.I)]
+    if miss_sew:
+        fail(f"生产版缺缝制规格：{', '.join(miss_sew)}（05 节，见 techpack.md）")
+    else:
+        ok("缝制规格含缝型 / SPI / 缝份 / 熨烫")
+
+    # 3 允差与测量方法（允差必须是具体 ± 数值，「非成衣允差标准」这类免责话不算）
+    if not re.search(r"[±]\s*\d+(?:\.\d+)?\s*(?:cm|mm|毫米)", plain, re.I):
+        fail("生产版缺具体允差（06 节）—— 要写 ±1.0 cm 这种数值，不是一句「非成衣允差标准」")
+    elif not re.search(r"从头|自.{0,6}至|量(至|到)|沿.{0,8}(中线|缝)|肩高点|后颈点|袖山|腰头", plain):
+        fail("生产版缺测量方法（06 节）—— 同一条尺寸两种量法能差 2 cm")
+    else:
+        ok("尺寸表含允差与测量方法")
+
+    # 4 Colorway 至少两套
+    cw = len(re.findall(r"[Cc]olorway", plain))
+    if cw < 2:
+        fail(f"生产版只给了 {cw} 套 Colorway，至少两套（主套 + 1 套替代）")
+    else:
+        ok(f"Colorway {cw} 套")
+
+    # 5 封面信息
+    cover = {"系列": r"系列", "设计师": r"设计师"}
+    miss_cover = [k for k, pat in cover.items() if not re.search(pat, plain)]
+    if miss_cover:
+        fail(f"生产版封面缺：{', '.join(miss_cover)}（00 节）")
+    else:
+        ok("封面含系列与设计师")
+
+    # 6 图形缺口声明 —— 少这一句，整份包会被当成可直接生产的 Tech Pack
+    if not re.search(r"待人工|人工补充|手工描|矢量另出|需另出", plain):
+        fail("生产版没声明图形缺口 —— 局部详图与印花矢量不由 AI 生成，必须写明待人工补充")
+    else:
+        ok("已声明图形缺口（详图 / 矢量待人工补）")
+
+
 def main(argv: list[str]) -> int:
     try:  # Windows 控制台默认 GBK，克重里的 ² 会炸
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
-    root = Path(argv[1] if len(argv) > 1 else ".").resolve()
+    production = "--production" in argv
+    args = [a for a in argv[1:] if not a.startswith("--")]
+    root = Path(args[0] if args else ".").resolve()
     if not root.is_dir():
         print(f"不是目录：{root}")
         return 2
 
     is_series = (root / "series-spec.html").is_file()
     print(f"检查：{root}")
-    print(f"模式：{'系列' if is_series else '单件 / 整套'}\n")
+    depth = " · 生产版" if production else ""
+    print(f"模式：{'系列' if is_series else '单件 / 整套'}{depth}\n")
 
     if is_series:
         check_series(root)
@@ -547,6 +609,8 @@ def main(argv: list[str]) -> int:
             check_cliche(html)
             check_images(root)
             check_variants(root)
+            if production:
+                check_production(html)
 
     for line in OK:
         print(f"  PASS  {line}")

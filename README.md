@@ -26,6 +26,7 @@ references/
 ├── menswear-register.md          男装高级感语域（静奢/老钱/Clean Fit，互斥三选一）
 ├── season-fabric.md              季节 × 克重 × 面料 × 结构
 ├── series-mode.md                系列模式
+├── techpack.md                   交付深度：展示版 / 生产版（Tech Pack 字段要求）
 ├── design-doc-structure.md       设计稿章节写什么、写到什么深度
 ├── image-prompt-recipes.md       效果图与平面图的提示词配方
 └── calibration-log.md            实测记录：失败案例、根因、修正
@@ -61,6 +62,12 @@ python scripts/check_spec.py <设计目录>
 ```
 
 查占位符残留、章节完整性、款号格式、性别归属、语域是否混用、色号与 Pantone、克重与季节是否自洽、尺寸加和、放码档差、图片画幅与白底。退出码非 0 表示有必须修的问题。
+
+生产版加 `--production`，另查 BOM 九类、缝制四要素（缝型 / SPI / 缝份 / 熨烫）、± 允差与测量方法、Colorway 套数、封面系列与设计师，以及**图形缺口声明**。
+
+```bash
+python scripts/check_spec.py <设计目录> --production
+```
 
 ## 设计取舍
 
@@ -99,5 +106,5 @@ MIT · 见 [LICENSE](LICENSE)
 
 ## 版本
 
-v1.5.0 · 2026-10-31
+v1.6.0 · 2026-11-01
 
