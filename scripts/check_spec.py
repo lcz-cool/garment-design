@@ -188,7 +188,18 @@ def check_weight(html: str) -> None:
         warn("没识别出季节，跳过克重区间检查")
         return
     lo, hi = SEASON_RANGE[season]
-    weights = [float(w) for w in re.findall(r"(\d{2,3}(?:\.\d+)?)\s*(?:g/m²|g/m2|gsm|克)", html)]
+    # 只取「主料」类行：衬布 30 g、织带、缝纫线这些天然远低于季节主力区间，
+    # 混进来会误报。逐行判断，行内出现这些词就整行跳过。
+    weights: list[float] = []
+    for block in re.findall(r"<tr>(.*?)</tr>", html, flags=re.S):
+        text = re.sub(r"<[^>]+>", "", block)
+        if re.search(r"衬|织带|松紧|缝纫线", text):
+            continue
+        weights += [float(w) for w in
+                    re.findall(r"(\d{2,3}(?:\.\d+)?)\s*(?:g/m²|g/m2|gsm|克)", text)]
+    if not weights:  # 不在表格里的写法兜底
+        weights = [float(w) for w in
+                   re.findall(r"(\d{2,3}(?:\.\d+)?)\s*(?:g/m²|g/m2|gsm|克)", html)]
     if not weights:
         warn("没找到克重数值，第 04 节应该给 g/m²")
         return
@@ -202,8 +213,13 @@ def check_weight(html: str) -> None:
 
 def check_measurement(html: str) -> None:
     body = strip_comments(html)
-    rows = re.findall(r"<tr>\s*<td>(.*?)</td>\s*<td>(.*?)</td>\s*<td>(.*?)</td>\s*</tr>",
-                      body, flags=re.S)
+    # 逐行解析：早先用 re.S 直接匹配 <tr>…</tr>，会让 .*? 跨过 </tr><tr> 把两行拼成一行，
+    # 生产版表格变密之后立刻暴露出假阳性。
+    rows = []
+    for block in re.findall(r"<tr>(.*?)</tr>", body, flags=re.S):
+        cells = re.findall(r"<td[^>]*>(.*?)</td>", block, flags=re.S)
+        if len(cells) == 3:
+            rows.append(tuple(cells))
     checked = 0
     for part, size_cell, note_cell in rows:
         note = re.sub(r"<[^>]+>", "", note_cell)
@@ -557,10 +573,13 @@ def check_production(html: str) -> None:
     else:
         ok("尺寸表含允差与测量方法")
 
-    # 4 Colorway 至少两套
-    cw = len(re.findall(r"[Cc]olorway", plain))
+    # 4 Colorway 至少两套（按「Colorway A / B」这类标注数，不数出现次数 —— 栏目标题里也有这个词）
+    letters = set(re.findall(r"[Cc]olorway\s*([A-Z])\b", plain))
+    cw = len(letters)
+    if cw < 2 and len(re.findall(r'class="swatch"', body)) >= 8:
+        cw = 2  # 没标 A/B，但色卡块够两组
     if cw < 2:
-        fail(f"生产版只给了 {cw} 套 Colorway，至少两套（主套 + 1 套替代）")
+        fail(f"生产版只给了 {cw} 套 Colorway，至少两套（主套 + 1 套替代，标成 Colorway A / B）")
     else:
         ok(f"Colorway {cw} 套")
 

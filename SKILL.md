@@ -11,7 +11,7 @@ description: >-
   fit. Triggers include 服装设计, 款式设计, 设计一件衣服, 出效果图, 款式图, 平面款式图,
   设计稿, 时装设计, 男装, 女装, 男女同款, 整套 look, 系列, lookbook, garment design,
   fashion design, menswear, womenswear, technical flat, tech pack.
-version: "1.6.0"
+version: "1.6.1"
 updated: "2026-10-31"
 agent_created: true
 display_name: 服装设计稿
